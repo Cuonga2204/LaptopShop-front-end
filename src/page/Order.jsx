@@ -8,22 +8,22 @@ import ModalSuccess from "../components/order/ModalSuccess";
 import { useContext } from "react";
 import { CartContext } from "../context/CartContext";
 import { formatPrice } from "../components/utility/format";
+import { OrderContext } from "../context/OrderContext";
 export default function Order() {
+  const { cartItems, clearCart } = useContext(CartContext);
+  const { createOrder } = useContext(OrderContext);
+
   const [isModalSuccess, setIsModalSuccess] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
-    email: "",
     address: "",
   });
-  const { cartItems } = useContext(CartContext);
-  const products = [...cartItems];
+  // const products = [...cartItems];
   const totalPrice = cartItems.reduce(
-    (total, item) => total + item.currentPrice * item.quantity,
+    (total, item) => total + item.price * item.quantity,
     0
   );
-  // const [paymentMethod, setPaymentMethod] = useState("");
-
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormData({
@@ -32,25 +32,19 @@ export default function Order() {
     });
   };
 
-  // const handlePaymentChange = (event) => {
-  //   setPaymentMethod(event.target.value);
-  //   setFormData({
-  //     ...formData,
-  //     paymentMethod: event.target.value,
-  //   });
-  // };
-
-  const handleSubmit = () => {
-    let orders = JSON.parse(localStorage.getItem("orderData") || "[]");
-    const orderData = {
-      ...formData,
-      products: cartItems,
-      totalPrice,
-      id: orders.length + 1,
-    };
-    orders.push(orderData);
-    localStorage.setItem("orderData", JSON.stringify(orders));
-    setIsModalSuccess(true);
+  const handleSubmit = async () => {
+    try {
+      const orderData = {
+        shippingInfo: formData,
+        items: cartItems,
+        totalPrice,
+      };
+      await createOrder(orderData);
+      await clearCart();
+      setIsModalSuccess(true);
+    } catch (error) {
+      console.error("Error submitting order:", error);
+    }
   };
   return (
     <>
@@ -60,7 +54,7 @@ export default function Order() {
           <h3 className=" Order-title">Thanh Toán</h3>
           <div className="inforOrder-cart inforOrder cart-product-by">
             <ProductOrderHeader />
-            <ProductOrderList products={products} />
+            <ProductOrderList products={cartItems} />
             <div class="cart-product-pay">
               <div class="cart-product-total">Tồng Tiền : </div>
               <div class="cart-product-total-price">
@@ -99,15 +93,6 @@ export default function Order() {
                   required
                 />
               </div>
-              <input
-                className="input-infor input-infor_1-0"
-                type="text"
-                placeholder="Nhập email không bắt buộc"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                z
-              />
             </div>
             <div className="customerAddress">
               <div className="customerAddress__header">
@@ -124,52 +109,8 @@ export default function Order() {
                 />
               </div>
             </div>
-            {/* Phương thức thanh toán */}
-            <div className="pay-order-select">
-              <ul className="pay-order-select-list">
-                <li className="pay-order-select-item">
-                  <input
-                    type="radio"
-                    id="Thanh toán khi nhận hàng"
-                    name="payment-method"
-                    value="Thanh toán khi nhận hàng"
-                    className="pay-order-select-item__input"
-                    // onChange={handlePaymentChange}
-                  />
-                  <label htmlFor="Thanh toán khi nhận hàng">
-                    Thanh toán khi nhận hàng
-                  </label>
-                </li>
-                <li className="pay-order-select-item">
-                  <input
-                    type="radio"
-                    id="Thanh toán online"
-                    name="payment-method"
-                    value="Thanh toán online"
-                    className="pay-order-select-item__input"
-                    // onChange={handlePaymentChange}
-                  />
-                  <label htmlFor="Thanh toán online">Thanh toán online</label>
-                </li>
-              </ul>
-            </div>
-            {/* {paymentMethod === "Thanh toán online" && (
-              <div className="pay-online">
-                <input
-                  className="input-infor input-infor_1-0 pay-online-input"
-                  type="text"
-                  placeholder="Nhập số thẻ"
-                />
-                <input
-                  className="input-infor input-infor_1-0 pay-online-input"
-                  type="password"
-                  placeholder="Nhập mật khẩu thẻ"
-                />
-              </div>
-            )} */}
-
             <button className="btn btn-pay" onClick={handleSubmit}>
-              Thanh toán
+              Đặt hàng
             </button>
           </div>
         </div>

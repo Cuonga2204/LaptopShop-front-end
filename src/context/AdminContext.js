@@ -17,6 +17,7 @@ export const AdminProvider = ({ children }) => {
     async function getListUser() {
         try {
             const response = await axios.get("/user/getAll");
+
             if (response.status === 200 && response.data.data) {
                 const fetchedUsers = response.data.data.map((user, index) => ({
                     stt: index + 1,

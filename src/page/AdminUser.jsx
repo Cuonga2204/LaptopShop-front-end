@@ -4,6 +4,8 @@ import UserTable from "../components/admin/user/UserTable";
 import { useAdmin } from "../context/AdminContext";
 export default function AdminUser() {
   const { users } = useAdmin();
+  console.log(users);
+
   return (
     <main className="admin-content">
       <>

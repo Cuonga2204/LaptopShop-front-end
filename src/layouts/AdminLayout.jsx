@@ -5,12 +5,11 @@ import AdminSidebar from "../components/admin/AdminSidebar";
 import { Outlet } from "react-router-dom";
 import { useState } from "react";
 export default function AdminLayout() {
-  const [selectedContent, setSelectedContent] = useState("User");
   return (
     <div className="admin-container">
-      <AdminSidebar setSelectedContent={setSelectedContent} />
+      <AdminSidebar />
       <div className="admin-main">
-        <AdminHeader selectedContent={selectedContent} />
+        <AdminHeader />
         <Outlet />
       </div>
     </div>

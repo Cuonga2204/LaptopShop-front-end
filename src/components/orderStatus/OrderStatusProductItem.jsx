@@ -11,14 +11,14 @@ export default function OrderStatusProductItem({
     <>
       <li className="product-order-item">
         <div className="product-order-infor">
-          <img src={product.imageUrl} alt="" />
+          <img src={`http://localhost:4000${product.imageProduct}`} alt="" />
           <span className="product-order-infor__name">{product.name}</span>
           <div className="product-order-quantity">
             <span>x{product.quantity}</span>
           </div>
           <div className="product-order-price">
             <div className="product-order-price__current">
-              {formatPrice(product.currentPrice)}
+              {formatPrice(product.price)}
             </div>
             <span className="product-order-price__old">
               {product.oldPrice}{" "}
@@ -29,7 +29,7 @@ export default function OrderStatusProductItem({
           <span>
             Thành tiền :
             <span className="product-order-price-total-number">
-              {formatPrice(product.quantity * product.currentPrice)}
+              {formatPrice(product.price)}
             </span>
           </span>
           <div className="product-order-price-total__current"></div>

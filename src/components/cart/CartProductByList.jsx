@@ -1,7 +1,7 @@
 import React from "react";
 import CartProductByItem from "./CartProductByItem";
 
-export default function CartProductByList({ products }) {
+export default function CartProductByList({ products = [] }) {
   return (
     <>
       <ul className="cart-product-by-list">

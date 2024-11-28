@@ -10,6 +10,7 @@ import Pagination from "./Pagination";
 import { FilterProvider } from "../../context/FilterContext";
 import { FilterPriceProvider } from "../../context/FilterPriceContext";
 import { useMemo } from "react";
+import { useEffect } from "react";
 export default function Container({ products, filter }) {
   const { page = 1 } = useParams(); // Lấy số trang từ URL, mặc định là 1
   const images = [

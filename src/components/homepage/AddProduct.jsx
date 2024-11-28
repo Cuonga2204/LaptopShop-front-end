@@ -12,7 +12,7 @@ export default function AddProduct({ product, quantity }) {
         </Link>
         <button
           className="btn add-product-cart"
-          onClick={() => addToCart(product, quantity)}
+          onClick={() => addToCart(product._id, quantity)}
         >
           Thêm vào giỏ hàng
         </button>

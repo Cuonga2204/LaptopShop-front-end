@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import CartNavbar from "./CartNavbar";
 import { CartContext } from "../../context/CartContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -65,10 +65,10 @@ const HeaderMenuItem = ({ iconName, iconClass, title, onClick }) => {
 
 const HeaderSearchListItem = ({ iconName, iconClass, title, itemClass }) => {
   const { cartItems } = useContext(CartContext);
-  const countProducts = cartItems.reduce(
-    (total, item) => (total += item.quantity),
-    0
-  );
+  const countProducts = Array.isArray(cartItems)
+    ? cartItems.reduce((total, item) => total + item.quantity, 0)
+    : 0;
+
   return (
     <li className={itemClass}>
       <div className="base-icon">
@@ -95,6 +95,7 @@ const NavBar = ({ setFilter }) => {
   const handleFilterClick = (filter) => {
     setFilter(filter);
   };
+  useEffect(() => {});
 
   return (
     <div>

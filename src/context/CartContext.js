@@ -4,6 +4,10 @@ export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
     const [cartItems, setCartItems] = useState([]);
+    const [cart, setCart] = useState({
+        totalPrice: 0,
+        items: [],
+    });
 
     // Lấy dữ liệu giỏ hàng từ backend khi component được render lần đầu
     useEffect(() => {
@@ -11,9 +15,6 @@ export const CartProvider = ({ children }) => {
             try {
                 const userId = localStorage.getItem("userId"); // Lấy userId từ localStorage
                 const accessToken = localStorage.getItem("access_token"); // Lấy token từ localStorage
-                console.log(userId);
-                console.log(accessToken);
-
                 const response = await axios.post(
                     "/cart",
                     { userId }, // Gửi userId qua body
@@ -23,9 +24,8 @@ export const CartProvider = ({ children }) => {
                         },
                     }
                 );
-
-
-                setCartItems(response.data.data.items); // Cập nhật giỏ hàng từ API
+                setCart(response.data.data || { items: [], totalPrice: 0 });
+                setCartItems(response.data.data.items || []); // Cập nhật giỏ hàng từ API
             } catch (error) {
                 console.error("Error fetching cart:", error);
             }
@@ -34,23 +34,54 @@ export const CartProvider = ({ children }) => {
         fetchCart();
     }, []);
 
+    //
+    const getCart = async () => {
+        try {
+            const userId = localStorage.getItem("userId"); // Lấy userId từ localStorage
+            const accessToken = localStorage.getItem("access_token"); // Lấy token từ localStorage
+            const response = await axios.post(
+                "/cart",
+                { userId }, // Gửi userId qua body
+                {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                }
+            );
+            setCart(response.data.data || { items: [], totalPrice: 0 });
+            setCartItems(response.data.data.items || []); // Cập nhật giỏ hàng từ API
+        } catch (error) {
+            console.error("Error fetching cart:", error);
+        }
+    };
+
     // Thêm vào giỏ hàng
 
-    const addToCart = (product, quantity = 1) => {
-        const existingProductIndex = cartItems.findIndex(item => item.id === product.id);
-        let newCartItems;
-        if (existingProductIndex >= 0) {
-            newCartItems = [...cartItems];
-            newCartItems[existingProductIndex].quantity += quantity;
-        } else {
-            newCartItems = [...cartItems, { ...product, quantity }];
+    const addToCart = async (productId, quantity = 1) => {
+        try {
+            const userId = localStorage.getItem("userId");
+            const accessToken = localStorage.getItem("access_token");
+            // console.log(userId);
+            // console.log(productId);
+            // console.log(accessToken);
+
+            const response = await axios.post(
+                "/cart/add",
+                { userId, productId, quantity },
+                {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                }
+            );
+
+            setCartItems(response.data.data.items);
+        } catch (error) {
+            console.error("Error adding to cart:", error);
         }
-        setCartItems(newCartItems);
-        localStorage.setItem('cartItems', JSON.stringify(newCartItems));
     };
     //Xoá sản phẩm khỏi giỏ hàng
     const removeFromCart = async (productId) => {
-
 
         try {
             const accessToken = localStorage.getItem("access_token");
@@ -71,21 +102,59 @@ export const CartProvider = ({ children }) => {
             console.log(response);
 
             setCartItems(response.data.data.items);
+            getCart();
         } catch (error) {
             console.error("Error fetching cart delete:", error);
         }
     };
     // Cập nhập khi ấn button "+" "-"
-    const updateQuantity = (productId, quantity) => {
-        const newCartItems = cartItems.map(item =>
-            item.id === productId ? { ...item, quantity } : item
-        );
-        setCartItems(newCartItems);
-        localStorage.setItem('cartItems', JSON.stringify(newCartItems));
-    };
+    const updateQuantity = async (productId, quantity) => {
+        try {
+            const userId = localStorage.getItem("userId");
+            const accessToken = localStorage.getItem("access_token");
 
+            // Gửi yêu cầu API tới backend để cập nhật số lượng
+            const response = await axios.put(
+                `/cart/update/${productId}`, // Endpoint để cập nhật số lượng sản phẩm
+                { userId, quantity }, // Gửi userId và số lượng mới qua body
+                {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`, // Đính kèm token để xác thực
+                    },
+                }
+            );
+
+            // Cập nhật giỏ hàng từ phản hồi của API
+            setCart(response.data.data);
+            setCartItems(response.data.data.items);
+            getCart();
+        } catch (error) {
+            console.error("Error updating quantity:", error);
+        }
+    };
+    const clearCart = async () => {
+        try {
+            const userId = localStorage.getItem("userId");
+            const accessToken = localStorage.getItem("access_token");
+
+            await axios.post(
+                "/cart/clear",
+                { userId },
+                {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                }
+            );
+
+            setCartItems([]);
+            setCart({ items: [], totalPrice: 0 });
+        } catch (error) {
+            console.error("Error clearing cart:", error);
+        }
+    };
     return (
-        <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, updateQuantity, setCartItems }}>
+        <CartContext.Provider value={{ cart, cartItems, addToCart, removeFromCart, updateQuantity, setCartItems, getCart, clearCart }}>
             {children}
         </CartContext.Provider>
     );

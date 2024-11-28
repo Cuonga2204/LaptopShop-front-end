@@ -2,12 +2,19 @@ import React, { useContext } from "react";
 import CartItem from "./CartItem";
 import { CartContext } from "../../context/CartContext";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 const Cart = () => {
-  const { cartItems } = useContext(CartContext);
+  const { cartItems, getCart } = useContext(CartContext);
+  useEffect(() => {
+    const fetchCart = async () => {
+      getCart();
+    };
 
+    fetchCart();
+  }, []);
   return (
     <div className="header__cart-list">
-      {cartItems.length === 0 ? (
+      {!cartItems || cartItems.length === 0 ? (
         <>
           <img
             src="/img/no_cart.png"

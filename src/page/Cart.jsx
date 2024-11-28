@@ -5,13 +5,15 @@ import CartProductByList from "../components/cart/CartProductByList";
 import { Link } from "react-router-dom";
 import { CartContext } from "../context/CartContext";
 import { formatPrice } from "../components/utility/format";
+import { useEffect } from "react";
 export default function Cart() {
-  const { cartItems } = useContext(CartContext);
-  const products = [...cartItems];
-  const totalPrice = cartItems.reduce(
-    (total, item) => total + item.currentPrice * item.quantity,
-    0
-  );
+  const { cartItems, cart, getCart } = useContext(CartContext);
+  const products = cartItems;
+  const totalPrice = cart.totalPrice;
+  useEffect(() => {
+    // Gọi hàm getCart để lấy dữ liệu giỏ hàng
+    getCart();
+  }, []);
   return (
     <>
       <div className="container">
@@ -26,7 +28,7 @@ export default function Cart() {
                 {formatPrice(totalPrice)}
               </div>
               <Link to={"/order"}>
-                <button class="btn btn-cart-pay"> Thanh toán</button>
+                <button class="btn btn-cart-pay"> Đặt hàng</button>
               </Link>
             </div>
           </div>

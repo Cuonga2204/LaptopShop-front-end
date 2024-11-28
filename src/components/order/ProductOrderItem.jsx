@@ -5,17 +5,17 @@ export default function ProductOrderItem({ product }) {
     <>
       <li class="cart-product-by-item">
         <div class="cart-header__name">
-          <img src={product.imageUrl} alt="" />
+          <img src={`http://localhost:4000${product.imageProduct}`} alt="" />
           {product.name}
         </div>
         <div class="cart-header__price order-list-product">
-          {formatPrice(product.currentPrice)}
+          {formatPrice(product.price)}
         </div>
         <div className="product-order-quantity">
           <span>x{product.quantity} </span>
         </div>
         <div class="cart-header__cart-header__price-total">
-          {formatPrice(product.currentPrice * product.quantity)}
+          {formatPrice(product.price * product.quantity)}
         </div>
       </li>
     </>

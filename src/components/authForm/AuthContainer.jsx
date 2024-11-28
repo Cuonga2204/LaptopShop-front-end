@@ -5,42 +5,20 @@ import AuthFormInput from "./AuthFormInput";
 import { useState, useEffect } from "react";
 import { useMemo } from "react";
 import * as UserService from "../../services/UserService";
-// import { useMutation } from "@tanstack/react-query";
-import { useMutationHooks } from "../../hooks/useMutationHooks";
+
+// import { useMutationHooks } from "../../hooks/useMutationHooks";
 export default function AuthContainer({ title }) {
-  // const DEFAULT_ACCOUNTS = useMemo(
-  //   () => [
-  //     {
-  //       email: "Cuong123",
-  //       password: "123",
-  //     },
-  //     {
-  //       email: "manh123",
-  //       password: "123",
-  //     },
-  //   ],
-  //   []
-  // );
-  const mutation = useMutationHooks((data) => UserService.loginUser(data));
-  console.log("mutation", mutation);
+  // const mutation = useMutationHooks((data) => UserService.loginUser(data));
+  // console.log("mutation", mutation);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  // const [listAccount, setListAccount] = useState(DEFAULT_ACCOUNTS);
+
   const handleEmailChange = (e) => setEmail(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
   const handleConfirmPasswordChange = (e) => setConfirmPassword(e.target.value);
   const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   const storedAccounts = JSON.parse(localStorage.getItem("listAccount"));
-  //   if (storedAccounts) {
-  //     setListAccount(storedAccounts);
-  //   } else {
-  //     localStorage.setItem("listAccount", JSON.stringify(DEFAULT_ACCOUNTS));
-  //   }
-  // }, [DEFAULT_ACCOUNTS]);
 
   const handleSignUp = () => {
     if (password !== confirmPassword) {
