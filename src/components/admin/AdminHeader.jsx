@@ -9,13 +9,15 @@ const AdminHeader = () => {
         <Link to="/">Home</Link> {/* Thay a bằng Link */}
         <Link to="/contact">Contact</Link> {/* Thay a bằng Link */}
       </div>
-      <div className="admin-logout">
-        <p>Logout</p>
-        <FontAwesomeIcon
-          className="admin-logout-icon"
-          icon={faRightFromBracket}
-        />
-      </div>
+      <Link to="/login">
+        <div className="admin-logout">
+          <p>Logout</p>
+          <FontAwesomeIcon
+            className="admin-logout-icon"
+            icon={faRightFromBracket}
+          />
+        </div>
+      </Link>
     </header>
   );
 };

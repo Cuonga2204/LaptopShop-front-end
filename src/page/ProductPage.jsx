@@ -87,13 +87,13 @@ export default function ProductPage() {
               className="product-detail"
               style={{ fontSize: "18px", lineHeight: "1.6" }}
             >
-              <h2
+              {/* <h2
                 className="product-detail-title"
                 style={{ fontSize: "24px", fontWeight: "bold" }}
               >
                 Mô tả sản phẩm
-              </h2>
-              <div dangerouslySetInnerHTML={{ __html: product.description }} />
+              </h2> */}
+              {/* <div dangerouslySetInnerHTML={{ __html: product.description }} /> */}
             </div>
             <div className="product-connect">
               <h2 className="product-connect__title">Sản phẩm liên quan</h2>

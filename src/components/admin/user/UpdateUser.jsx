@@ -2,15 +2,16 @@ import React, { useState, useEffect } from "react";
 import UserInput from "./UserInput";
 import axios from "../../../common/common";
 import { useNavigate, useParams } from "react-router-dom";
-
+import { jwtDecode } from "jwt-decode";
 const UpdateUser = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [role, setRole] = useState("customer");
+  const [avatar, setAvatar] = useState(null); // State cho ảnh mới
+  const [previewAvatar, setPreviewAvatar] = useState(null); // Xem trước ảnh mới
   const navigate = useNavigate();
   const { userId } = useParams();
-  console.log(userId);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -20,14 +21,18 @@ const UpdateUser = () => {
             Authorization: `Bearer ${localStorage.getItem("access_token")}`,
           },
         });
-        console.log(response);
 
         if (response.status === 200 && response.data.data) {
-          const { name, email, phone, isAdmin } = response.data.data;
-          setUsername(name || ""); // Sử dụng giá trị mặc định ""
+          const { name, email, phone, isAdmin, imageUrl } = response.data.data;
+          setUsername(name || "");
           setEmail(email || "");
           setPhone(phone || "");
           setRole(isAdmin ? "admin" : "customer");
+          setPreviewAvatar(
+            imageUrl
+              ? `http://localhost:4000${imageUrl}`
+              : `http://localhost:4000/uploads/images/avatarDefault.png`
+          ); // Hiển thị ảnh hiện tại hoặc ảnh mặc định
         }
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -36,28 +41,50 @@ const UpdateUser = () => {
     fetchUserData();
   }, [userId]);
 
+  const handleAvatarChange = (e) => {
+    const file = e.target.files[0];
+    setAvatar(file);
+    setPreviewAvatar(URL.createObjectURL(file)); // Hiển thị ảnh xem trước
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission logic here
-    const updatedUserData = {
-      name: username,
-      email,
-      phone,
-      isAdmin: role === "admin",
-    };
+    const formData = new FormData();
+    formData.append("name", username);
+    formData.append("email", email);
+    formData.append("phone", phone);
+    formData.append("isAdmin", role === "admin");
+    if (avatar) {
+      formData.append("avatar", avatar); // Thêm ảnh mới nếu có
+    }
+
     try {
       const response = await axios.put(
         `/user/update-user/${userId}`,
-        updatedUserData,
+        formData,
         {
           headers: {
+            "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${localStorage.getItem("access_token")}`,
           },
         }
       );
+
       if (response.status === 200) {
         console.log("User updated successfully");
-        navigate("/admin");
+        const accessToken = localStorage.getItem("access_token");
+        console.log(accessToken);
+
+        const payloadDecode = jwtDecode(accessToken).payload;
+        console.log(payloadDecode);
+
+        console.log(payloadDecode);
+
+        if (payloadDecode.isAdmin === true) {
+          navigate("/admin/user");
+        } else {
+          navigate("/");
+        }
       } else {
         console.error("Failed to update user");
       }
@@ -71,8 +98,20 @@ const UpdateUser = () => {
       <h2 className="create-user-title">Update User</h2>
       <div className="create-user-form-wrapper">
         <form onSubmit={handleSubmit} className="create-user-form">
+          <div className="avatar-upload-section">
+            {previewAvatar ? (
+              <img
+                src={previewAvatar}
+                alt="Avatar Preview"
+                className="avatar-preview"
+              />
+            ) : (
+              <div className="avatar-placeholder">Upload Avatar</div>
+            )}
+            <input type="file" onChange={handleAvatarChange} />
+          </div>
           <div className="input-group">
-            <label className="input-lable" htmlFor="username">
+            <label className="input-label" htmlFor="username">
               Username
             </label>
             <UserInput
@@ -83,7 +122,7 @@ const UpdateUser = () => {
             />
           </div>
           <div className="input-group">
-            <label className="input-lable" htmlFor="email">
+            <label className="input-label" htmlFor="email">
               Email
             </label>
             <UserInput
@@ -94,7 +133,7 @@ const UpdateUser = () => {
             />
           </div>
           <div className="input-group">
-            <label className="input-lable" htmlFor="phone">
+            <label className="input-label" htmlFor="phone">
               Phone
             </label>
             <UserInput
@@ -104,7 +143,7 @@ const UpdateUser = () => {
             />
           </div>
           <div className="input-group role-select">
-            <label className="input-lable" htmlFor="role">
+            <label className="input-label" htmlFor="role">
               Role
             </label>
             <select

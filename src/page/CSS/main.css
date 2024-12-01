@@ -710,6 +710,9 @@
     cursor: pointer;
     align-items: center;
     position: relative;
+    display: flex;
+    justify-content:center;
+    flex-direction: column;
 }
 .header__navbar-user:hover .header__navbar-user-menu {
     will-change: opacity;
@@ -1107,5 +1110,23 @@
     min-width: 40px;
     height: var(--height);
     border-radius: 2px;
+  }
+
+  /* Header User  */
+  .header-avatar-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .header-avatar-icon {
+    font-size: 40px;
+    /* color: #aaa; */
+  }
+  
+  .header-avatar-name {
+    font-size: 14px;
+    font-weight: 500;
   }
   

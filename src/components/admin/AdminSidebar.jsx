@@ -18,6 +18,12 @@ const AdminSidebar = () => {
         </div>
       </Link>
       <hr className="divider" />
+      <Link to="/admin/order" className="admin-sidebar-link">
+        <div className="admin-user-info ">
+          <span>Order</span>
+        </div>
+      </Link>
+      <hr className="divider" />
     </aside>
   );
 };

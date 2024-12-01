@@ -11,7 +11,16 @@ const CreateUser = () => {
   const [phone, setPhone] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
   const [role, setRole] = useState("customer");
+  const [avatar, setAvatar] = useState(null); // State cho ảnh
+  const [previewAvatar, setPreviewAvatar] = useState(null); // State cho xem trước ảnh
   const navigate = useNavigate();
+
+  const handleAvatarChange = (e) => {
+    const file = e.target.files[0];
+    setAvatar(file);
+    setPreviewAvatar(URL.createObjectURL(file)); // Hiển thị ảnh xem trước
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Handle form submission logic here
@@ -20,31 +29,30 @@ const CreateUser = () => {
     } else {
       setIsAdmin(true);
     }
-    const userData = {
-      name,
-      email,
-      password,
-      confirmPassword,
-      phone,
-      isAdmin,
-    };
-    console.log(userData);
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("email", email);
+    formData.append("password", password);
+    formData.append("confirmPassword", confirmPassword);
+    formData.append("phone", phone);
+    formData.append("isAdmin", isAdmin);
+    if (avatar) {
+      formData.append("avatar", avatar); // Thêm file ảnh vào formData
+    }
+
     try {
-      const response = await axios.post("/user/sign-up", userData, {
+      const response = await axios.post("/user/sign-up", formData, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "multipart/form-data",
         },
       });
-      console.log(response);
-
       if (response.status === 200) {
-        console.log("User created successfully");
         navigate("/admin");
       } else {
-        console.error("Failed to create user");
+        console.error("Failed to create user:", response.data.message);
       }
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Error creating user:", error);
     }
   };
 
@@ -53,6 +61,19 @@ const CreateUser = () => {
       <h2 className="create-user-title">Create User</h2>
       <div className="create-user-form-wrapper">
         <form onSubmit={handleSubmit} className="create-user-form">
+          <div className="avatar-upload-section">
+            {previewAvatar ? (
+              <img
+                src={previewAvatar}
+                alt="Avatar Preview"
+                className="avatar-preview"
+              />
+            ) : (
+              <div className="avatar-placeholder">Upload Avatar</div>
+            )}
+            <input type="file" onChange={handleAvatarChange} />
+          </div>
+
           <UserInput
             type="text"
             placeholder="Username"

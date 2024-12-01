@@ -13,7 +13,7 @@ export default function OrderStatus() {
     useContext(OrderContext);
   const [orderDetail, setOrderDetail] = useState(false);
   const [orderDataDetail, setOrderDataDetail] = useState(null);
-  const [orderStatusHeader, setOrderStatusHeader] = useState("Tất cả");
+  const [orderStatusHeader, setOrderStatusHeader] = useState("Chờ xác nhận");
 
   // Lấy danh sách đơn hàng từ backend khi component được mount
   useEffect(() => {
@@ -49,11 +49,11 @@ export default function OrderStatus() {
 
   // Lọc đơn hàng theo trạng thái
   const filteredOrders =
-    orderStatusHeader === "Tất cả"
-      ? orders
+    orderStatusHeader === "Chờ xác nhận"
+      ? orders.filter((order) => order.status === "Chờ xác nhận")
       : orders.filter((order) => order.status === orderStatusHeader);
 
-  const menuItems = ["Tất cả", "Chờ xác nhận", "Chờ giao hàng", "Hoàn thành"];
+  const menuItems = ["Chờ xác nhận", "Chờ giao hàng", "Hoàn thành"];
 
   return (
     <div className="container">
@@ -110,8 +110,20 @@ export default function OrderStatus() {
                   src="/img/OrderEmpty.png"
                   alt="Empty orders"
                 />
-                <p>Không có đơn hàng nào trong mục này</p>
               </div>
+            )}
+
+            {filteredOrders.length > 0 ? (
+              filteredOrders.map((order, index) => (
+                <OrderStatusProductList
+                  products={order.items}
+                  key={index}
+                  order={order}
+                  handleViewOrderDetail={() => handleViewOrderDetail(order._id)}
+                />
+              ))
+            ) : (
+              <div className="order-status-empty"></div>
             )}
           </div>
         </div>

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+// import { CKEditor } from "@ckeditor/ckeditor5-react";
+// import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import axios from "../../../common/common";
-
+import { useNavigate } from "react-router-dom";
 const CreateProduct = () => {
   const [productData, setProductData] = useState({
     name: "",
@@ -14,6 +14,7 @@ const CreateProduct = () => {
     description: "",
   });
   const [previewImage, setPreviewImage] = useState(null); // Thêm state để lưu URL xem trước
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -49,6 +50,7 @@ const CreateProduct = () => {
       console.log(response);
 
       if (response.data.status === "OK") {
+        navigate("/admin/product");
         console.log("Product created successfully!");
       } else {
         console.log(response.data.message || "Error creating product");
@@ -126,13 +128,6 @@ const CreateProduct = () => {
         </div>
         <div className="form-group">
           <label>Mô tả:</label>
-          <CKEditor
-            editor={ClassicEditor}
-            data={productData.description}
-            onChange={(event, editor) =>
-              handleDescriptionChange(editor.getData())
-            }
-          />
         </div>
         <button type="submit" className="submit-button">
           Tạo Sản Phẩm

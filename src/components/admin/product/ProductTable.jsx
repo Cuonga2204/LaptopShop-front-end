@@ -4,7 +4,9 @@ import { faEye, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { useAdmin } from "../../../context/AdminContext";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 const ProductTable = ({ products, onDelete, onEdit, onView }) => {
+  const navigate = useNavigate();
   const { getListProduct } = useAdmin();
   const handleDelete = async (productId) => {
     try {
@@ -12,6 +14,7 @@ const ProductTable = ({ products, onDelete, onEdit, onView }) => {
       if (response.status === 200) {
         console.log("User delete successfully");
         getListProduct();
+        navigate("/admin/product");
       } else {
         console.error("Failed to delete user");
       }

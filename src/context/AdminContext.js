@@ -14,6 +14,7 @@ export const AdminProvider = ({ children }) => {
     const [selectedContent, setSelectedContent] = useState("User");
     const [users, setUsers] = useState([]);
     const [products, setProducts] = useState([]);
+    const [orders, setOrders] = useState([]);
     async function getListUser() {
         try {
             const response = await axios.get("/user/getAll");
@@ -50,11 +51,32 @@ export const AdminProvider = ({ children }) => {
             console.log(error);
         }
     }
+    async function getListOrder() { // Thêm hàm lấy danh sách đơn hàng
+        try {
+            const userId = localStorage.getItem('userId')
+            const response = await axios.get(`/order/getAllOrder`, {
+                userId: userId
+            });
+            if (response.status === 200 && response.data.data) {
+                const fetchedOrders = response.data.data.map((order, index) => ({
+                    stt: index + 1,
+                    orderId: order._id,
+                    userName: order.userName,
+                    totalPrice: order.totalPrice,
+                    status: order.status,
+                }));
+                setOrders(fetchedOrders); // Cập nhật danh sách đơn hàng
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
     useEffect(() => {
 
         getListUser();
 
         getListProduct();
+        getListOrder();
 
     }, []);
 
@@ -62,7 +84,7 @@ export const AdminProvider = ({ children }) => {
     const changeContent = (content) => setSelectedContent(content);
 
     return (
-        <AdminContext.Provider value={{ selectedContent, changeContent, users, products, setUsers, setProducts, getListUser, getListProduct }}>
+        <AdminContext.Provider value={{ selectedContent, changeContent, users, products, orders, setUsers, setProducts, getListUser, getListProduct, getListOrder }}>
             {children}
         </AdminContext.Provider>
     );

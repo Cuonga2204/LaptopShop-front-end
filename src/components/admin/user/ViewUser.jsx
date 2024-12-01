@@ -23,6 +23,8 @@ const ViewUser = () => {
     };
     fetchUserData();
   }, [userId]);
+  // console.log(`http://localhost:4000${userData.imageUrl}`);
+  // console.log(`http://localhost:4000/uploads/images/avatarDefault.png`);
 
   return (
     <div className="view-user-container">
@@ -30,6 +32,17 @@ const ViewUser = () => {
       <div className="view-user-details">
         {userData ? (
           <>
+            <div className="view-user-detail-row view-user-detail-row__avtar">
+              <img
+                src={
+                  userData.imageUrl
+                    ? `http://localhost:4000${userData.imageUrl}`
+                    : `http://localhost:4000/uploads/images/avatarDefault.png` // Đường dẫn đến ảnh mặc định
+                }
+                className="admin-img"
+                alt=""
+              />
+            </div>
             <div className="view-user-detail-row">
               <span className="view-user-detail-label">Username:</span>
               <span className="view-user-detail-value">{userData.name}</span>

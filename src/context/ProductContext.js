@@ -12,7 +12,7 @@ export const ProductProvider = ({ children }) => {
         // Hàm lấy tất cả sản phẩm
         const getAllProduct = async () => {
             try {
-                const response = await axios.get('/product/getAll');
+                const response = await axios.get('/product/getAllProduct');
                 if (response.status === 200) {
                     setProducts(response.data.data);
                 }

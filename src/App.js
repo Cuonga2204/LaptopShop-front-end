@@ -28,13 +28,13 @@ import CreateProduct from './components/admin/product/CreateProduct.jsx';
 import UpdateProduct from './components/admin/product/UpdateProduct.jsx';
 import ViewProduct from './components/admin/product/ViewProduct.jsx';
 import { CartProvider } from './context/CartContext.js';
-import { AdminProvider } from './context/AdminContext'; // Import AdminProvider
+import { AdminProvider } from './context/AdminContext';
 import { ProductProvider } from './context/ProductContext.js';
 import { OrderProvider } from './context/OrderContext.js';
 import axios from 'axios';
 import AdminProduct from './page/AdminProduct.jsx';
 import AdminUser from './page/AdminUser.jsx';
-
+import AdminOrder from './page/AdminOrder.jsx';
 function App() {
   const [products, setProducts] = useState([]);
   const [filter, setFilter] = useState("TẤT CẢ");
@@ -43,7 +43,7 @@ function App() {
   useEffect(() => {
     async function getAllProduct() {
       try {
-        const response = await axios.get('/product/getAll');
+        const response = await axios.get('/product/getAllProduct');
         if (response.status === 200) {
           setProducts(response.data.data);
         }
@@ -66,6 +66,7 @@ function App() {
                 <Routes>
                   {/* Routes cho người dùng */}
                   <Route path="/" element={<Layout setFilter={setFilter} products={products} />}>
+                    <Route path="/user/update/:userId" element={<UpdateUser />} />
                     <Route path="/" element={<Container products={products} filter={filter} />} />
                     <Route path="/products/:productId" element={<ProductPage products={products} />} />
                     <Route path="/page/:page" element={<Container products={products} filter={filter} />} />
@@ -90,6 +91,7 @@ function App() {
                     <Route path="user/:userId" element={<ViewUser />} />
                     <Route path="product/create" element={<CreateProduct />} />
                     <Route path="product/update/:productId" element={<UpdateProduct />} />
+                    <Route path="order" element={<AdminOrder />} />
 
                   </Route>
                 </Routes>

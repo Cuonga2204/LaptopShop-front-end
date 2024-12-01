@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+// import { CKEditor } from "@ckeditor/ckeditor5-react";
+// import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import axios from "../../../common/common";
 import { useParams, useNavigate } from "react-router-dom";
 
@@ -77,7 +77,7 @@ const UpdateProduct = () => {
       );
       if (response.data.status === "OK") {
         console.log("Product updated successfully!");
-        navigate("/admin");
+        navigate("/admin/product");
       } else {
         console.error("Failed to update product");
       }
@@ -153,13 +153,13 @@ const UpdateProduct = () => {
         </div>
         <div className="form-group">
           <label>Mô tả:</label>
-          <CKEditor
+          {/* <CKEditor
             editor={ClassicEditor}
             data={productData.description || ""}
             onChange={(event, editor) =>
               handleDescriptionChange(editor.getData())
             }
-          />
+          /> */}
         </div>
         <button type="submit" className="submit-button">
           Cập Nhật Sản Phẩm
