@@ -3,6 +3,9 @@ import UserInput from "./UserInput";
 import axios from "../../../common/common";
 import { useNavigate, useParams } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import { useAdmin } from "../../../context/AdminContext";
+import { useContext } from "react";
+import { UserContext } from "../../../context/UserContext";
 const UpdateUser = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -12,7 +15,8 @@ const UpdateUser = () => {
   const [previewAvatar, setPreviewAvatar] = useState(null); // Xem trước ảnh mới
   const navigate = useNavigate();
   const { userId } = useParams();
-
+  const { getListUser } = useAdmin();
+  const { setTriggerFetch } = useContext(UserContext);
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -39,7 +43,9 @@ const UpdateUser = () => {
       }
     };
     fetchUserData();
-  }, [userId]);
+    getListUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleAvatarChange = (e) => {
     const file = e.target.files[0];
@@ -83,6 +89,7 @@ const UpdateUser = () => {
         if (payloadDecode.isAdmin === true) {
           navigate("/admin/user");
         } else {
+          setTriggerFetch((prev) => !prev);
           navigate("/");
         }
       } else {

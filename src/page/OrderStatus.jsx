@@ -18,6 +18,7 @@ export default function OrderStatus() {
   // Lấy danh sách đơn hàng từ backend khi component được mount
   useEffect(() => {
     fetchOrders();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const closeModal = () => {
     setOrderDetail(false);
@@ -111,19 +112,6 @@ export default function OrderStatus() {
                   alt="Empty orders"
                 />
               </div>
-            )}
-
-            {filteredOrders.length > 0 ? (
-              filteredOrders.map((order, index) => (
-                <OrderStatusProductList
-                  products={order.items}
-                  key={index}
-                  order={order}
-                  handleViewOrderDetail={() => handleViewOrderDetail(order._id)}
-                />
-              ))
-            ) : (
-              <div className="order-status-empty"></div>
             )}
           </div>
         </div>

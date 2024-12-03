@@ -46,7 +46,11 @@ export default function AdminProduct() {
       >
         Add Product
       </button>
-      <ProductTable products={products} />
+      <ProductTable
+        products={products}
+        currentPage={currentPage}
+        limit={limit}
+      />
       <AdminPagination
         currentPage={currentPage}
         totalPages={totalPages}

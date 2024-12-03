@@ -3,6 +3,7 @@ import CartNavbar from "./CartNavbar";
 import { CartContext } from "../../context/CartContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
+import { UserContext } from "../../context/UserContext";
 import {
   faCartShopping,
   faCircleUser,
@@ -96,6 +97,8 @@ const HeaderSearchListItem = ({ iconName, iconClass, title, itemClass }) => {
 const NavBar = ({ setFilter }) => {
   const [userData, setUserData] = useState(null);
   const userId = localStorage.getItem("userId");
+  const { triggerFetch } = useContext(UserContext);
+
   // console.log(userId);
 
   useEffect(() => {
@@ -114,7 +117,8 @@ const NavBar = ({ setFilter }) => {
       }
     };
     fetchUserData();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [triggerFetch]);
   // console.log(userData);
 
   // console.log(`http://localhost:4000${userData.imageUrl}`);

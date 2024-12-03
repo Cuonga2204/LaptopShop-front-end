@@ -1,11 +1,12 @@
 import React, { useContext } from "react";
 import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { CartContext } from "../../context/CartContext";
+// import { CartContext } from "../../context/CartContext";
 export default function ProductQuantity({ productId, quantity, setQuantity }) {
-  const { updateQuantity } = useContext(CartContext);
-  const increment = () => updateQuantity(productId, quantity + 1);
-  const decrement = () => updateQuantity(productId, quantity - 1);
+  // const { updateQuantity } = useContext(CartContext);
+
+  const increment = () => setQuantity(quantity + 1);
+  const decrement = () => setQuantity(quantity - 1);
 
   return (
     <>

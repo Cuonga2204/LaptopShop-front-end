@@ -24,8 +24,12 @@ export const CartProvider = ({ children }) => {
                         },
                     }
                 );
-                setCart(response.data.data || { items: [], totalPrice: 0 });
-                setCartItems(response.data.data.items || []); // Cập nhật giỏ hàng từ API
+                if (response.data && response.data.data) {
+                    setCart(response.data.data);
+                    setCartItems(response.data.data.items || []); // Sử dụng mảng rỗng nếu items undefined
+                } else {
+                    console.error("Response data is not in the expected format:", response.data);
+                }
             } catch (error) {
                 console.error("Error fetching cart:", error);
             }
@@ -48,8 +52,12 @@ export const CartProvider = ({ children }) => {
                     },
                 }
             );
-            setCart(response.data.data || { items: [], totalPrice: 0 });
-            setCartItems(response.data.data.items || []); // Cập nhật giỏ hàng từ API
+            if (response.data && response.data.data) {
+                setCart(response.data.data);
+                setCartItems(response.data.data.items || []); // Sử dụng mảng rỗng nếu items undefined
+            } else {
+                console.error("Response data is not in the expected format:", response.data);
+            }
         } catch (error) {
             console.error("Error fetching cart:", error);
         }
@@ -61,10 +69,6 @@ export const CartProvider = ({ children }) => {
         try {
             const userId = localStorage.getItem("userId");
             const accessToken = localStorage.getItem("access_token");
-            // console.log(userId);
-            // console.log(productId);
-            // console.log(accessToken);
-
             const response = await axios.post(
                 "/cart/add",
                 { userId, productId, quantity },
@@ -112,6 +116,7 @@ export const CartProvider = ({ children }) => {
         try {
             const userId = localStorage.getItem("userId");
             const accessToken = localStorage.getItem("access_token");
+            console.log(productId);
 
             // Gửi yêu cầu API tới backend để cập nhật số lượng
             const response = await axios.put(
@@ -125,8 +130,12 @@ export const CartProvider = ({ children }) => {
             );
 
             // Cập nhật giỏ hàng từ phản hồi của API
-            setCart(response.data.data);
-            setCartItems(response.data.data.items);
+            if (response.data && response.data.data) {
+                setCart(response.data.data);
+                setCartItems(response.data.data.items || []); // Sử dụng mảng rỗng nếu items undefined
+            } else {
+                console.error("Response data is not in the expected format:", response.data);
+            }
             getCart();
         } catch (error) {
             console.error("Error updating quantity:", error);

@@ -31,9 +31,9 @@ const CreateProduct = () => {
     }
   };
 
-  const handleDescriptionChange = (data) => {
-    setProductData({ ...productData, description: data });
-  };
+  // const handleDescriptionChange = (data) => {
+  //   setProductData({ ...productData, description: data });
+  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -44,8 +44,12 @@ const CreateProduct = () => {
     });
 
     try {
+      const accessToken = localStorage.getItem("access_token");
       const response = await axios.post("/product/create", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${accessToken}`,
+        },
       });
       console.log(response);
 
@@ -126,9 +130,7 @@ const CreateProduct = () => {
             rows="3"
           />
         </div>
-        <div className="form-group">
-          <label>Mô tả:</label>
-        </div>
+
         <button type="submit" className="submit-button">
           Tạo Sản Phẩm
         </button>

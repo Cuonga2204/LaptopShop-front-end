@@ -9,7 +9,12 @@ const UserTable = ({ users }) => {
   const handleDelete = async (userId) => {
     console.log(userId);
     try {
-      const response = await axios.delete(`/user/delete-user/${userId}`);
+      const accessToken = localStorage.getItem("access_token");
+      const response = await axios.delete(`/user/delete-user/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
       if (response.status === 200) {
         console.log("User delete successfully");
         getListUser();

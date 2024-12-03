@@ -82,7 +82,7 @@ const OrderTable = ({ orders }) => {
               <tr key={index}>
                 <td>{order.orderId}</td>
                 <td>{order.userName}</td>
-                <td>{order.totalPrice} đ</td>
+                <td>{formatPrice(order.totalPrice)}</td>
                 <td>
                   <select
                     className="status-select"

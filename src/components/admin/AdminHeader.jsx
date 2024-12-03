@@ -7,7 +7,6 @@ const AdminHeader = () => {
     <header className="admin-header">
       <div className="admin-nav-links">
         <Link to="/">Home</Link> {/* Thay a bằng Link */}
-        <Link to="/contact">Contact</Link> {/* Thay a bằng Link */}
       </div>
       <Link to="/login">
         <div className="admin-logout">

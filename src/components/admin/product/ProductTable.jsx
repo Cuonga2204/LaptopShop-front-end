@@ -5,7 +5,8 @@ import { Link } from "react-router-dom";
 import { useAdmin } from "../../../context/AdminContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-const ProductTable = ({ products, onDelete, onEdit, onView }) => {
+import { formatPrice } from "../../utility/format";
+const ProductTable = ({ products, currentPage, limit }) => {
   const navigate = useNavigate();
   const { getListProduct } = useAdmin();
   const handleDelete = async (productId) => {
@@ -37,7 +38,7 @@ const ProductTable = ({ products, onDelete, onEdit, onView }) => {
         <tbody>
           {products.map((product, index) => (
             <tr key={product.id}>
-              <td>{index + 1}</td>
+              <td>{(currentPage - 1) * limit + index + 1}</td>
               <td>{product.name}</td>
               <td>
                 <img
@@ -46,7 +47,7 @@ const ProductTable = ({ products, onDelete, onEdit, onView }) => {
                   className="product-image"
                 />
               </td>
-              <td>{product.price}đ</td>
+              <td>{formatPrice(product.price)}</td>
               <td>
                 <td>
                   <Link to={`${product.id}`}>
