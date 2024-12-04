@@ -84,6 +84,7 @@ function App() {
                     {/* Routes cho admin */}
                     <Route path="/admin" element={<AdminLayout />}>
                       <Route path="/admin" element={<Admin />} />
+                      <Route path="user/pages/:page" element={<AdminUser />} />
                       <Route path="user" element={<AdminUser />} />
                       <Route path="product/:productId" element={<ViewProduct />} />
                       <Route path="product/pages/:page" element={<AdminProduct />} />

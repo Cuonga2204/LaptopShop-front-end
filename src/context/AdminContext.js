@@ -15,13 +15,15 @@ export const AdminProvider = ({ children }) => {
     const [users, setUsers] = useState([]);
     const [products, setProducts] = useState([]);
     const [orders, setOrders] = useState([]);
-    async function getListUser() {
+    async function getListUser(page = 1, limit = 5) {
         try {
-            const response = await axios.get("/user/getAll");
+            // const response = await axios.get("/user/getAll");
+            const response = await axios.get(`/user/getAll?page=${page}&limit=${limit}`);
+            console.log(response);
 
             if (response.status === 200 && response.data.data) {
                 const fetchedUsers = response.data.data.map((user, index) => ({
-                    stt: index + 1,
+                    stt: (page - 1) * limit + index + 1,
                     id: user._id,
                     username: user.name || "N/A",
                     role: user.isAdmin ? "admin" : "customer",

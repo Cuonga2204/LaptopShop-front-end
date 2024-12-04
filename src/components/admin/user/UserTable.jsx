@@ -4,7 +4,7 @@ import { faEye, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "../../../common/common";
 import { useAdmin } from "../../../context/AdminContext";
-const UserTable = ({ users }) => {
+const UserTable = ({ users, currentPage, limit }) => {
   const { getListUser } = useAdmin();
   const handleDelete = async (userId) => {
     console.log(userId);
@@ -38,20 +38,20 @@ const UserTable = ({ users }) => {
           </tr>
         </thead>
         <tbody>
-          {users.map((user) => (
+          {users.map((user, index) => (
             <tr key={user.id}>
-              <td>{user.stt}</td>
+              <td>{(currentPage - 1) * limit + index + 1}</td>
               <td>{user.username}</td>
               <td>{user.role}</td>
               <td>{user.email}</td>
               <td>
-                <Link to={`${user.id}`}>
+                <Link to={`/admin/user/${user.id}`}>
                   <button className="view-button">
                     <FontAwesomeIcon icon={faEye} />{" "}
                     {/* Icon mắt để xem chi tiết */}
                   </button>
                 </Link>
-                <Link to={`update/${user.id}`}>
+                <Link to={`/admin/user/update/${user.id}`}>
                   <button className="edit-button">
                     <FontAwesomeIcon icon={faEdit} />{" "}
                     {/* Icon bút chì để sửa */}

@@ -47,7 +47,7 @@ const CreateUser = () => {
         },
       });
       if (response.status === 200) {
-        navigate("/admin");
+        navigate("/admin/user");
       } else {
         console.error("Failed to create user:", response.data.message);
       }
