@@ -1129,4 +1129,7 @@
     font-size: 14px;
     font-weight: 500;
   }
-  
+  .product-config-param{
+    display: flex;
+    flex-direction: column;
+  }

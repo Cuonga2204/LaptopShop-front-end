@@ -1,7 +1,7 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinus, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
-import ProductQuantity from "../homeProduct/ProductQuantity";
+import ProductCartQuantity from "./ProductCartQuantity";
 import { useState, useEffect } from "react";
 import { useContext } from "react";
 import { CartContext } from "../../context/CartContext";
@@ -21,7 +21,7 @@ export default function CartProductByItem({ product }) {
           {formatPrice(product.currentPrice)}{" "}
         </div>
         <div class="cart-header__quantity">
-          <ProductQuantity
+          <ProductCartQuantity
             productId={product.product}
             quantity={product.quantity}
           />

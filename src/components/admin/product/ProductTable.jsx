@@ -50,12 +50,12 @@ const ProductTable = ({ products, currentPage, limit }) => {
               <td>{formatPrice(product.price)}</td>
               <td>
                 <td>
-                  <Link to={`${product.id}`}>
+                  <Link to={`/admin/product/${product.id}`}>
                     <button className="view-button">
                       <FontAwesomeIcon icon={faEye} />{" "}
                     </button>
                   </Link>
-                  <Link to={`update/${product.id}`}>
+                  <Link to={`/admin/product/update/${product.id}`}>
                     <button className="edit-button">
                       <FontAwesomeIcon icon={faEdit} />{" "}
                     </button>
