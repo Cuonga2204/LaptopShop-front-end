@@ -34,7 +34,9 @@ const UpdateProduct = () => {
             description: product.description || "", // Sử dụng chuỗi rỗng nếu description là null hoặc undefined
             imageUrl: product.imageUrl,
           });
-          setPreviewImage(`http://localhost:4000${product.imageUrl}`);
+          setPreviewImage(
+            `https://laptopshop-back-end-1.onrender.com${product.imageUrl}`
+          );
         }
       } catch (error) {
         console.error("Error fetching product data:", error);

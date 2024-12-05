@@ -92,8 +92,28 @@ export const OrderProvider = ({ children }) => {
         }
     };
 
+    const getListOrder = async () => {
+        try {
+            const userId = localStorage.getItem("userId");
+            const accessToken = localStorage.getItem("access_token");
+            const response = await axios.post(
+                "/order/getAll",
+                { userId },
+                {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                }
+            );
+            setOrders(response.data.data || []);
+            return response.data;
+        } catch (error) {
+            console.error("Error fetching orders:", error);
+        }
+    };
+
     return (
-        <OrderContext.Provider value={{ orders, createOrder, fetchOrders, deleteOrder, getOrderById }}>
+        <OrderContext.Provider value={{ orders, createOrder, fetchOrders, deleteOrder, getOrderById, getListOrder }}>
             {children}
         </OrderContext.Provider>
     );

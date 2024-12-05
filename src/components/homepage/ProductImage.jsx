@@ -16,7 +16,7 @@ export default function ProductImage({ imageUrl, backgroundUrl }) {
         {/* Link wrapping the image */}
         <Link to="/">
           <img
-            src={`http://localhost:4000${imageUrl}`}
+            src={`https://laptopshop-back-end-1.onrender.com${imageUrl}`}
             // src={imageUrl}
             alt="Product"
           />

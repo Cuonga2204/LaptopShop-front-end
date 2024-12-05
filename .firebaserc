@@ -1,0 +1,9 @@
+{
+  "projects": {
+    "default": "cn-web-nhom-5",
+    "web-nhom5": "cn-web-nhom-5"
+  },
+  "targets": {},
+  "etags": {},
+  "dataconnectEmulatorConfig": {}
+}

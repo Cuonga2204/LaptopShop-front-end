@@ -14,7 +14,10 @@ export default function CartProductByItem({ product }) {
     <>
       <li class="cart-product-by-item">
         <div class="cart-header__name">
-          <img src={`http://localhost:4000${product.imageProduct}`} alt="" />
+          <img
+            src={`https://laptopshop-back-end-1.onrender.com${product.imageProduct}`}
+            alt=""
+          />
           {product.name}
         </div>
         <div class="cart-header__price">

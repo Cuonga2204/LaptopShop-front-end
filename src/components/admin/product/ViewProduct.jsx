@@ -30,7 +30,7 @@ const ViewProduct = () => {
               ? product.config
               : product.config.split(", "),
             description: product.description,
-            imageUrl: `http://localhost:4000${product.imageUrl}`,
+            imageUrl: `https://laptopshop-back-end-1.onrender.com${product.imageUrl}`,
           });
         }
       } catch (error) {

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 
-axios.defaults.baseURL = "http://localhost:4000/api/";
+axios.defaults.baseURL = "https://laptopshop-back-end-1.onrender.com/api/";
 
 // Thiết lập headers mặc định, bao gồm Authorization token
 axios.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem("access_token")}`;

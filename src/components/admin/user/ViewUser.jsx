@@ -36,10 +36,10 @@ const ViewUser = () => {
               <img
                 src={
                   userData.imageUrl
-                    ? `http://localhost:4000${userData.imageUrl}`
-                    : `http://localhost:4000/uploads/images/avatarDefault.png` // Đường dẫn đến ảnh mặc định
+                    ? `https://laptopshop-back-end-1.onrender.com${userData.imageUrl}`
+                    : `https://laptopshop-back-end-1.onrender.com/uploads/images/avatarDefault.png` // Đường dẫn đến ảnh mặc định
                 }
-                className="admin-img"
+                className="admin-img image-details"
                 alt=""
               />
             </div>

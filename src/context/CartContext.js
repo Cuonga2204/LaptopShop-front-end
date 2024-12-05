@@ -93,7 +93,7 @@ export const CartProvider = ({ children }) => {
             console.log(userId);
             console.log(productId);
             console.log(accessToken);
-            const response = await axios.delete(`http://localhost:4000/api/cart/delete/${productId}`,
+            const response = await axios.delete(`https://laptopshop-back-end-1.onrender.com/api/cart/delete/${productId}`,
                 {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,

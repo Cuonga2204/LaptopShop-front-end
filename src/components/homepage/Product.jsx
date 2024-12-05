@@ -22,7 +22,7 @@ export default function Product({ product }) {
           <ProductInfo
             name={product.name}
             currentPrice={formatPrice(product.currentPrice)}
-            oldPrice={product.oldPrice}
+            oldPrice={formatPrice(product.oldPrice)}
           />
           <ProductConfig
             config={product.config}

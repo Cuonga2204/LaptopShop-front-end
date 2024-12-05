@@ -18,6 +18,7 @@ import { faCoffee } from "@fortawesome/free-solid-svg-icons";
 import HeaderUserMenu from "./HeaderUserMenu";
 import { useState } from "react";
 import axios from "axios";
+import { useSearch } from "../../context/SearchContext";
 const HeaderLogo = () => {
   return (
     <Link to={"/"}>
@@ -98,6 +99,7 @@ const NavBar = ({ setFilter }) => {
   const [userData, setUserData] = useState(null);
   const userId = localStorage.getItem("userId");
   const { triggerFetch } = useContext(UserContext);
+  const { setSearchTerm } = useSearch();
 
   // console.log(userId);
 
@@ -139,6 +141,7 @@ const NavBar = ({ setFilter }) => {
                   className="header-filter-search__input"
                   type="text"
                   placeholder="Nhập tên máy tính, phụ kiện máy tính, ... cần tìm"
+                  onChange={(e) => setSearchTerm(e.target.value)}
                 />
                 <HeaderSearchHistory />
                 <button className="header-filter-search__button">
@@ -164,7 +167,7 @@ const NavBar = ({ setFilter }) => {
                 <li className="header-search-list__item header__navbar-user">
                   {userData?.imageUrl ? (
                     <img
-                      src={`http://localhost:4000${userData.imageUrl}`}
+                      src={`https://laptopshop-back-end-1.onrender.com${userData.imageUrl}`}
                       alt="Avatar"
                       className="header-avatar-img"
                     />

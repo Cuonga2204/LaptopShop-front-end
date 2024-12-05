@@ -31,7 +31,7 @@ const Cart = () => {
               <CartItem
                 id={item.product}
                 key={index}
-                imageProduct={`http://localhost:4000${item.imageProduct}`}
+                imageProduct={`https://laptopshop-back-end-1.onrender.com${item.imageProduct}`}
                 name={item.nameProduct}
                 currentPrice={item.price}
                 quantity={item.quantity}

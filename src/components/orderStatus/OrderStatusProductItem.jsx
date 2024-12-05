@@ -11,7 +11,10 @@ export default function OrderStatusProductItem({
     <>
       <li className="product-order-item">
         <div className="product-order-infor">
-          <img src={`http://localhost:4000${product.imageProduct}`} alt="" />
+          <img
+            src={`https://laptopshop-back-end-1.onrender.com${product.imageProduct}`}
+            alt=""
+          />
           <span className="product-order-infor__name">{product.name}</span>
           <div className="product-order-quantity">
             <span>x{product.quantity}</span>

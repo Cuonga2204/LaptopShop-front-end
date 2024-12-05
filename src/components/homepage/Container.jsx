@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useParams } from "react-router-dom";
 import ContainerEvent from "./ContainerEvent";
 import ImageSlider from "./ImageSlider";
@@ -11,8 +11,12 @@ import { FilterProvider } from "../../context/FilterContext";
 import { FilterPriceProvider } from "../../context/FilterPriceContext";
 import { useMemo } from "react";
 import { useEffect } from "react";
-export default function Container({ products, filter }) {
+import { ProductContext } from "../../context/ProductContext";
+import { useSearch } from "../../context/SearchContext";
+export default function Container({ filter }) {
+  const { products } = useContext(ProductContext);
   const { page = 1 } = useParams(); // Lấy số trang từ URL, mặc định là 1
+  const { searchTerm } = useSearch(); // Lấy từ khóa tìm kiếm từ SearchContext
   const images = [
     "/img/slideShow1.png",
     "/img/slideShow4.png",
@@ -21,11 +25,22 @@ export default function Container({ products, filter }) {
 
   const PRODUCTS_PER_PAGE = 9; // Số sản phẩm trên mỗi trang
   const filteredProducts = useMemo(() => {
-    if (filter === "TẤT CẢ") {
-      return products;
+    let filtered = products;
+
+    // Lọc theo từ khóa tìm kiếm từ Navbar
+    if (searchTerm) {
+      filtered = filtered.filter((product) =>
+        product.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
     }
-    return products.filter((product) => product.name.includes(filter));
-  }, [products, filter]);
+
+    // Lọc theo filter (ví dụ HP, DELL, ASUS)
+    if (filter && filter !== "TẤT CẢ") {
+      filtered = filtered.filter((product) => product.name.includes(filter));
+    }
+
+    return filtered;
+  }, [products, searchTerm, filter]);
 
   // Tính tổng số trang dựa trên số sản phẩm đã lọc
   const totalPages = Math.ceil(filteredProducts.length / PRODUCTS_PER_PAGE);

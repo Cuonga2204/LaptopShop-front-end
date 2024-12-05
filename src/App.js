@@ -36,6 +36,7 @@ import AdminProduct from './page/AdminProduct.jsx';
 import AdminUser from './page/AdminUser.jsx';
 import AdminOrder from './page/AdminOrder.jsx';
 import { UserProvider } from './context/UserContext.js';
+import { SearchProvider } from './context/SearchContext.js';
 function App() {
   const [products, setProducts] = useState([]);
   const [filter, setFilter] = useState("TẤT CẢ");
@@ -63,43 +64,46 @@ function App() {
         <ProductProvider>
           <OrderProvider>
             <UserProvider>
-              <Router>
-                <div className='App'>
-                  <Routes>
-                    {/* Routes cho người dùng */}
-                    <Route path="/" element={<Layout setFilter={setFilter} products={products} />}>
-                      <Route path="/user/update/:userId" element={<UpdateUser />} />
-                      <Route path="/" element={<Container products={products} filter={filter} />} />
-                      <Route path="/products/:productId" element={<ProductPage products={products} />} />
-                      <Route path="/page/:page" element={<Container products={products} filter={filter} />} />
-                      <Route path="/cart" element={<Cart />} />
-                      <Route path="/order" element={<Order />} />
-                      <Route path="/orderStatus" element={<OrderStatus />} />
-                    </Route>
+              <SearchProvider>
+                <Router>
+                  <div className='App'>
+                    <Routes>
+                      {/* Routes cho người dùng */}
+                      <Route path="/" element={<Layout setFilter={setFilter} products={products} />}>
+                        <Route path="/user/update/:userId" element={<UpdateUser />} />
+                        <Route path="/" element={<Container products={products} filter={filter} />} />
+                        <Route path="/products/:productId" element={<ProductPage products={products} />} />
+                        <Route path="/page/:page" element={<Container products={products} filter={filter} />} />
+                        <Route path="/cart" element={<Cart />} />
+                        <Route path="/order" element={<Order />} />
+                        <Route path="/orderStatus" element={<OrderStatus />} />
+                      </Route>
 
-                    {/* Routes cho trang đăng nhập/đăng ký */}
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/signup" element={<Signup />} />
+                      {/* Routes cho trang đăng nhập/đăng ký */}
+                      <Route path="/login" element={<Login />} />
+                      <Route path="/signup" element={<Signup />} />
 
-                    {/* Routes cho admin */}
-                    <Route path="/admin" element={<AdminLayout />}>
-                      <Route path="/admin" element={<Admin />} />
-                      <Route path="user/pages/:page" element={<AdminUser />} />
-                      <Route path="user" element={<AdminUser />} />
-                      <Route path="product/:productId" element={<ViewProduct />} />
-                      <Route path="product/pages/:page" element={<AdminProduct />} />
-                      <Route path="product" element={<AdminProduct />} />
-                      <Route path="user/create" element={<CreateUser />} />
-                      <Route path="user/update/:userId" element={<UpdateUser />} />
-                      <Route path="user/:userId" element={<ViewUser />} />
-                      <Route path="product/create" element={<CreateProduct />} />
-                      <Route path="product/update/:productId" element={<UpdateProduct />} />
-                      <Route path="order" element={<AdminOrder />} />
+                      {/* Routes cho admin */}
+                      <Route path="/admin" element={<AdminLayout />}>
+                        <Route path="/admin" element={<Admin />} />
+                        <Route path="user/pages/:page" element={<AdminUser />} />
+                        <Route path="user" element={<AdminUser />} />
+                        <Route path="product/:productId" element={<ViewProduct />} />
+                        <Route path="product/pages/:page" element={<AdminProduct />} />
+                        <Route path="product" element={<AdminProduct />} />
+                        <Route path="user/create" element={<CreateUser />} />
+                        <Route path="user/update/:userId" element={<UpdateUser />} />
+                        <Route path="user/:userId" element={<ViewUser />} />
+                        <Route path="product/create" element={<CreateProduct />} />
+                        <Route path="product/update/:productId" element={<UpdateProduct />} />
+                        <Route path="order/pages/:page" element={<AdminOrder />} />
+                        <Route path="order" element={<AdminOrder />} />
 
-                    </Route>
-                  </Routes>
-                </div>
-              </Router>
+                      </Route>
+                    </Routes>
+                  </div>
+                </Router>
+              </SearchProvider>
             </UserProvider>
           </OrderProvider>
         </ProductProvider>

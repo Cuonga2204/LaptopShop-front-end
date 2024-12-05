@@ -42,7 +42,7 @@ const ProductTable = ({ products, currentPage, limit }) => {
               <td>{product.name}</td>
               <td>
                 <img
-                  src={`http://localhost:4000${product.imageUrl}`}
+                  src={`https://laptopshop-back-end-1.onrender.com${product.imageUrl}`}
                   alt={product.name}
                   className="product-image"
                 />

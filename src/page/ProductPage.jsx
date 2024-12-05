@@ -11,9 +11,13 @@ import ProductConnectItem from "../components/homeProduct/ProductConnectItem";
 import { useContext } from "react";
 import { ProductContext } from "../context/ProductContext";
 import { useState } from "react";
+// require("dotenv").config();
 export default function ProductPage() {
   const { products } = useContext(ProductContext);
   const { productId } = useParams();
+  const API_URL = process.env.REACT_APP_API_URL;
+  console.log(API_URL);
+
   // console.log(productId);
 
   const product = products.find((p) => p._id === productId);
@@ -22,7 +26,7 @@ export default function ProductPage() {
   if (!product) {
     return <div>Product not found</div>;
   }
-  console.log(`http://localhost:4000${product.imageUrl}`);
+  console.log(`https://laptopshop-back-end-1.onrender.com${product.imageUrl}`);
 
   const images = [
     // product.imageUrl,

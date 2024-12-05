@@ -34,8 +34,8 @@ const UpdateUser = () => {
           setRole(isAdmin ? "admin" : "customer");
           setPreviewAvatar(
             imageUrl
-              ? `http://localhost:4000${imageUrl}`
-              : `http://localhost:4000/uploads/images/avatarDefault.png`
+              ? `https://laptopshop-back-end-1.onrender.com${imageUrl}`
+              : `https://laptopshop-back-end-1.onrender.com/uploads/images/avatarDefault.png`
           ); // Hiển thị ảnh hiện tại hoặc ảnh mặc định
         }
       } catch (error) {

@@ -53,15 +53,16 @@ export const AdminProvider = ({ children }) => {
             console.log(error);
         }
     }
-    async function getListOrder() { // Thêm hàm lấy danh sách đơn hàng
+    async function getListOrder(page = 1, limit = 5) { // Thêm hàm lấy danh sách đơn hàng
+
         try {
             const userId = localStorage.getItem('userId')
-            const response = await axios.get(`/order/getAllOrder`, {
+            const response = await axios.get(`/order/getAllOrderPage?page=${page}&limit=${limit}`, {
                 userId: userId
             });
             if (response.status === 200 && response.data.data) {
                 const fetchedOrders = response.data.data.map((order, index) => ({
-                    stt: index + 1,
+                    stt: (page - 1) * limit + index + 1,
                     orderId: order._id,
                     userName: order.userName,
                     totalPrice: order.totalPrice,
